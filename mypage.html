@@ -125,14 +125,14 @@
       border-collapse: separate;
       border: 1px solid black;
       width: 40%;
-      height: 200px;
+    
       margin-left: 20px;
     }
     #area2 .fshow-tb {
       border-collapse: separate;
       border: 1px solid black;
       width: 40%;
-      height: 200px;
+  
       margin-right: 20px;
     }
     .logout_btn{
@@ -145,7 +145,7 @@
   <table class="tg">
     <thead>
       <tr>
-        <th class="tg-1" colspan="6">문유 관리자 페이지</th>
+        <th class="tg-1" colspan="6"><a href="mypage.html"> 문유 관리자 페이지</a></th>
       </tr>
     </thead>
     <tbody>
@@ -212,66 +212,39 @@
           Email &nbsp; &emsp; &emsp; &emsp;<input type="text" id="email"><br><br>
         
        
-          PassWord &emsp;&emsp; <input type="text" id="pwd">
+          PassWord &emsp;&emsp; <input type="password" id="pwd">
           <br><br>
       
           <input class="tg-btn" type="button" value="수정" id="update">
-        </div>
+             </div>
+  <div id="area2">
+    <table class="show-tb" align="left">
+        <tr>
+          <th class="now" bgcolor="green" colspan="6">진행중인 공연</th>
+        <tr>
+        <th>공연이름</th>
+        <th>공연기간</th>
+      </tr>
+  <tbody id="table1"  >
+  
+      </tbody>
+    </table>
 
-        <div id="area2">
-          <table class="show-tb" align="left">
-            <thead>
-              <tr>
-                <th class="now" bgcolor="green" colspan="6">진행중인 공연</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="e"></td>
-                <td class="now-time" colspan="5">공연기간</td>
-              </tr>
-              <tr >
-                <td class="1">공연1</td>
-                <td class="1-1" colspan="5"></td>
-              </tr>
-              <tr>
-                <td class="2">공연2</td>
-                <td class="2-1" colspan="5"></td>
-              </tr>
-              <tr>
-                <td class="3">공연3</td>
-                <td class="3-1" colspan="5"></td>
-              </tr>
-            </tbody>
-          </table>
+    <table class="fshow-tb" align="right">
+        <tr>
+          <th class="finish" bgcolor="red" colspan="6">종료된 공연</th>
+        </tr>
+        <tr>
+        <th>공연이름</th>
+        <th>공연기간</th>
+      </tr>
+        <tbody id="table2"  >
+       
+      
+      </tbody>
+    </table>
 
-          <table class="fshow-tb" align="right">
-            <thead>
-              <tr>
-                <th class="finish" bgcolor="red" colspan="6">종료된 공연</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="f"></td>
-                <td class="finish-time" colspan="5">공연기간</td>
-              </tr>
-              <tr>
-                <td class="f-1">공연4</td>
-                <td class="f1-1" colspan="5"></td>
-              </tr>
-              <tr>
-                <td class="f2">공연5</td>
-                <td class="f2-1" colspan="5"></td>
-              </tr>
-              <tr>
-                <td class="f3">공연6</td>
-                <td class="f3-1" colspan="5"></td>
-              </tr>
-            </tbody>
-          </table>
-
-        </div>
+  </div>
         <a href="ShowManager.html" div id="area3">공연관리페이지로 이동</div>
     </tbody>
   </table>
@@ -307,19 +280,71 @@
 <script src="/node_modules/firebase/firebase-auth.js"></script>
 <script src="/node_modules/firebase/firebase-firestore.js"></script>
 <script type="module">
-import { firestore } from './firebase.js';     
-   
-firestore.collection("show_info").where("state", "==","상영중", true)
-    .get()
-    .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-            // doc.data() is never undefined for query doc snapshots
-            console.log( " aaaaaaaaaaaaaa ", doc.data());
+
+var rows=[];
+    
+    import { firestore } from './firebase.js';     
+    firestore.collection("show_info")
+        .where("state", "==","상영중", true)
+        .get()
+        .then((querySnapshot) => {
+            querySnapshot.forEach(doc =>{
+        // doc.data() is never undefined for query doc snapshots       
+                
+                    var showdata=doc.data();
+                    var showname =showdata.title;
+                    var showstart =showdata.startday;
+                    var showfinish=showdata.finishday;
+                    rows= {showname,showstart,showfinish};
+                 
+                    console.log("sussesssssss ",rows);
+    
+                    var table = document.getElementById("table1") 
+                  
+    
+                    var row = `<tr>
+                    <td>${rows.showname}</td>
+                     <td>${rows.showstart}~${rows.showfinish}</td> 
+                    </tr>`
+                 table.innerHTML += row 
+                console.log("sussesssssss ",table);
+          
+                  });
+        })
+        .catch((error) => {
+            console.log("errrrrrrr@@@@@@@@@@ ", error);
         });
-    })
-    .catch((error) => {
-        console.log("errrrrrrr@@@@@@@@@@ ", error);
-    });
+          
+        firestore.collection("show_info")
+        .where("state", "==","상영종료", true)
+        .get()
+        .then((querySnapshot) => {
+            querySnapshot.forEach(doc =>{
+        // doc.data() is never undefined for query doc snapshots       
+                
+                    var showdata=doc.data();
+                    var showname =showdata.title;
+                    var showstart =showdata.startday;
+                    var showfinish=showdata.finishday;
+                    rows= {showname,showstart,showfinish};
+                 
+                    console.log("sussesssssss ",rows);
+    
+                    var table = document.getElementById("table2") 
+                  
+    
+                    var row = `<tr>
+                    <td>${rows.showname}</td>
+                     <td>${rows.showstart}~${rows.showfinish}</td> 
+                    </tr>`
+                 table.innerHTML += row 
+                console.log("sussesssssss ",table);
+          
+                  });
+        })
+        .catch((error) => {
+            console.log("errrrrrrr@@@@@@@@@@ ", error);
+        });
 </script>
 </body>
 

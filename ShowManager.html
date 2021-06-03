@@ -4,7 +4,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MoonYouManager</title>
+
+  <title>MoonYouManager</title> <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+  </style>
 </head>
 
 <body>
@@ -90,26 +93,25 @@
          {
       padding: 5px;
     }
-
+ 
     /*탭 제목*/
     #area1,
     #area2
     {
       /*탭 내용칸*/
       width: 60%;
-      height: 350px;
+      height: 500px;
       border: 1px solid black;
       display: none;
+      border-color: inherit;
       margin-left: auto;
       margin-right: auto;
-      padding-top: 30px;
-      border-color: inherit;
-      text-align: center;
       vertical-align: middle;
+     
       font-size: large;
     }
 
-    #area1 .tg-btn {
+     .tg-btn {
       background-color: #013300;
       border-color: inherit;
       color: #ecf4ff;
@@ -119,17 +121,50 @@
       height: 50px;
       font-size: large;
     }
+    #show_seat{
+      background-color: #013300;
+      border-color: inherit;
+      color: #ecf4ff;
+      text-align: center;
+      vertical-align: middle;
+      width: 150px;
+      height: 30px;
+      font-size:medium;
+
+    }
+  .imgbox {
+  border: 5px solid darkblue;
+  height: 100px;
+  width: 100px;
+  text-align: center;
+  position: absolute;
+  left: 20px;
+  top: 250px;
+}
+  #side {
+    width:30%;
+    height: 500px;
+    float: left;
+  }
+   #main{
+    width:70%;
+    height:500px;
+ float: right;
+    
+  }
   </style>
+
   <table class="tg">
     <thead>
       <tr>
-        <th class="tg-1" colspan="6">문유 관리자 페이지</th>
+        <th class="tg-1" colspan="6"><a href="mypage.html" >문유 관리자 페이지</a></th>
       </tr>
     </thead>
     <tbody>
       <tr>
         <td class="tg-2" colspan="6">공연관리</td>
       </tr>
+
       <script type="text/javascript">
         var prev_menu = "";//obj랑 비교할 녀석,, 이전 꺼를 없애주기 위해서 이전 정보를 저장할 변수 만듦
         var prev_sub = "";
@@ -141,6 +176,7 @@
               prev_sub.style.backgroundColor = "#ffffff";
               prev_sub.style.color = "#666666";// 이전탭의 제목색은 원래의 진한 색상으로 돌려준다
             }
+
             /* 현재 정보 스타일 변화 */
             obj.style.display = "block";
             sub.style.backgroundColor = "#18709c";
@@ -150,10 +186,34 @@
             prev_sub = sub;
           }
         }
+
+ //요소위치들 조정
+ $( document ).ready( function() {
+           var side = $('#side'); //아이디가 imgset요소 변수할당
+           var main = $('#main');
+ 
+              side.offset({ left: 100, } );
+              main.offset({ left: 100,top:20 } );
+         
+      } );
+      
+    
+        /*섬네일(그림미리보기) 함수*/
+        function setThumbnail(event) { 
+          var reader = new FileReader(); 
+        
+        reader.onload = function(event) { 
+          var img = document.createElement("img"); 
+          img.width=200;
+          img.height=200;
+          img.setAttribute("src", event.target.result); 
+          document.querySelector("div#image_container").appendChild(img); 
+          }; 
+          reader.readAsDataURL(event.target.files[0]); }
       </script>
 
-      <!--첫번째 값 설정해주려면 바디에 "onload"를 지정해주면 됨-->
 
+      <!--첫번째 값 설정해주려면 바디에 "onload"를 지정해주면 됨-->
       <body onload="javascript:layer_toggle(document.getElementById('sub1'),document.getElementById('area1'))">
         <!--먼저 제목줄은 테이블로-->
         <table class="table" width="60%">
@@ -178,27 +238,75 @@
         </table>
         <!--내용 area 는 밖에서-->
         <div id="area1">
-            <button > 이미지등록 </button>
-           
-          공연이름 &emsp; &emsp; &emsp; &emsp; &nbsp;<input type="text" id="show_name">
-          <br><br>
-          공연장소 &emsp;&emsp; <input type="text" id="show_place" >
-          <br><br>
-          공연기간 &nbsp; &emsp; &emsp; &emsp;<input type="text" id="show_day" ><br><br>
-          좌석배치&nbsp; &emsp; &emsp; &emsp;<input type="text" id="show_seat" ><br><br>
-          가격 &nbsp; &emsp; &emsp; &emsp;<input type="text" id="price" ><br><br>
-          <br><br><br>
-          <input class="tg-btn" type="button" value="수정" id="update">
+         <!--이미지등록버튼-->
+         <div id=side>
+            <div id="imgbox" >
+              <div id='image_container'>
+                  </div>
+            <br>
+            <div id=img>
+           <input type="file" id="image" accept="image/*" onchange="setThumbnail(event);">
+            </div>
+          </div>
+        </div>
+  
+          <br>
+
+          <div id=main>
+
+          <div id=Splace>
+          공연장소&emsp; <input type="text" id="show_place" >
         </div>
 
-        <div id="area2">
-          <table class="show-tb" align="left">
-            <thead>
-              <tr>
-                <th class="now" bgcolor="green" colspan="6">진행중인 공연</th>
-              </tr>
-            </thead>
+        <br>
+
+        <div id=Saddress>
+          공연장주소 <input type="text" value="주소" id="show_address" >
+          </div>
+          <br>
+
+          <div id=Sday>
+          공연기간  &emsp;시작일 <input type="date" id="startday" ><br>
+          &emsp; &emsp;  &emsp; &emsp; 종료일 <input type="date" id="finishday" >
         </div>
+          <br>
+
+          <div id=Sseat>
+          좌석배치 &emsp;<input type="button" value="좌석등록" id="show_seat" onclick="seat()" >
+          </div>
+          <br>
+
+          <div id=Sprice>
+          가격  VIP <input type="text" id="VIP" value="원"style="text-align: right;"><br>
+          &emsp;&emsp;&emsp; R <input type="text" id="R" value="원" style="text-align: right;"><br>
+          &emsp;&emsp;&emsp; S <input type="text" id="S" value="원"style="text-align: right;"><br>
+          &emsp;&emsp;&emsp; A <input type="text" id="A" value="원"style="text-align: right;"><br>
+          </div> 
+          <br>
+
+          <input class="tg-btn" type="button" value="등록" id="update" onclick="summit()">
+               </div>
+        
+
+        <div id="area2">
+          <div id=side>
+            <div id="imgbox" >
+              <div id='image_container'>
+                  </div>
+            <br>
+            <div id=img>
+           <input type="file" id="image" accept="image/*" onchange="setThumbnail(event);">
+            </div>
+          </div>
+           </div>
+
+            <div id=main>
+        
+          <input class="tg-btn" type="button" value="수정" id="edit" onclick="edit()">
+               </div>
+          </div>
+
+
     </tbody>
   </table>
 
