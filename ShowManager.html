@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MoonYouManager</title>
+</head>
+
+<body>
+  <style type="text/css">
+    .tg {
+      border-collapse: collapse;
+      border-spacing: 0;
+      margin-left: auto;
+      margin-right: auto;
+      width: 60%;
+      margin-top: 50px;
+    }
+
+    .tg td {
+      border-color: black;
+      border-style: solid;
+      border-width: 1px;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      overflow: hidden;
+      padding: 10px 5px;
+      word-break: normal;
+    }
+
+    .tg th {
+      border-color: black;
+      border-style: solid;
+      border-width: 1px;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      font-weight: normal;
+      overflow: hidden;
+      padding: 10px 5px;
+      word-break: normal;
+    }
+
+    .tg .tg-1 {
+      background-color: #013300;
+      border-color: inherit;
+      color: #ecf4ff;
+      text-align: center;
+      vertical-align: middle;
+      width: 400px;
+    }
+
+    .tg .tg-2 {
+      border-color: inherit;
+      text-align: center;
+      vertical-align: middle;
+    }
+
+
+    * {
+      margin: 0;
+      padding: 0;
+      font-family: "malgun gothic";
+    }
+
+    a {
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .table {
+      font-size: 0.9em;
+      color: #666666;
+      border-collapse: collapse;
+      border: 1px solid black;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .table tr>th {
+      border-right: 1px solid black;
+      width: 50%;
+    }
+
+    /*탭 3개 만들려고 33%*/
+    /*아래 것들은 반드시 id(#)로 작성해야 합니다 !!*/
+    #sub1,
+    #sub2
+         {
+      padding: 5px;
+    }
+
+    /*탭 제목*/
+    #area1,
+    #area2
+    {
+      /*탭 내용칸*/
+      width: 60%;
+      height: 350px;
+      border: 1px solid black;
+      display: none;
+      margin-left: auto;
+      margin-right: auto;
+      padding-top: 30px;
+      border-color: inherit;
+      text-align: center;
+      vertical-align: middle;
+      font-size: large;
+    }
+
+    #area1 .tg-btn {
+      background-color: #013300;
+      border-color: inherit;
+      color: #ecf4ff;
+      text-align: center;
+      vertical-align: middle;
+      width: 200px;
+      height: 50px;
+      font-size: large;
+    }
+  </style>
+  <table class="tg">
+    <thead>
+      <tr>
+        <th class="tg-1" colspan="6">문유 관리자 페이지</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="tg-2" colspan="6">공연관리</td>
+      </tr>
+      <script type="text/javascript">
+        var prev_menu = "";//obj랑 비교할 녀석,, 이전 꺼를 없애주기 위해서 이전 정보를 저장할 변수 만듦
+        var prev_sub = "";
+        function layer_toggle(sub, obj) {//#sub, #area
+          if (prev_menu != obj) {
+            /*이전 정보 정리*/
+            if (prev_menu != "") {//처음 누른 상태 제외
+              prev_menu.style.display = "none";//이전 녀석 꺼라
+              prev_sub.style.backgroundColor = "#ffffff";
+              prev_sub.style.color = "#666666";// 이전탭의 제목색은 원래의 진한 색상으로 돌려준다
+            }
+            /* 현재 정보 스타일 변화 */
+            obj.style.display = "block";
+            sub.style.backgroundColor = "#18709c";
+            sub.style.color = "#ffffff";
+            /* 현재 정보를 다음클릭을 위해 var통에 저장 */
+            prev_menu = obj;
+            prev_sub = sub;
+          }
+        }
+      </script>
+
+      <!--첫번째 값 설정해주려면 바디에 "onload"를 지정해주면 됨-->
+
+      <body onload="javascript:layer_toggle(document.getElementById('sub1'),document.getElementById('area1'))">
+        <!--먼저 제목줄은 테이블로-->
+        <table class="table" width="60%">
+          <!--테이블 내부 애들은 div 없이 자바스크립트에서 그 속성을 부를 수 없다. 
+            그래서 형식을 맞춰주는 table th속성 안에 div가 들어간 형태로 작성한다-->
+          <tr>
+            <th>
+              <div id="sub1">
+                <a href="javascript:layer_toggle(document.getElementById('sub1'),document.getElementById('area1'))">
+                  공연등록
+                </a>
+              </div>
+            </th>
+            <th>
+              <div id="sub2">
+                <a href="javascript:layer_toggle(document.getElementById('sub2'),document.getElementById('area2'))">
+                  공연정보수정
+                </a>
+              </div>
+            </th>
+          </tr>
+        </table>
+        <!--내용 area 는 밖에서-->
+        <div id="area1">
+            <button > 이미지등록 </button>
+           
+          공연이름 &emsp; &emsp; &emsp; &emsp; &nbsp;<input type="text" id="show_name">
+          <br><br>
+          공연장소 &emsp;&emsp; <input type="text" id="show_place" >
+          <br><br>
+          공연기간 &nbsp; &emsp; &emsp; &emsp;<input type="text" id="show_day" ><br><br>
+          좌석배치&nbsp; &emsp; &emsp; &emsp;<input type="text" id="show_seat" ><br><br>
+          가격 &nbsp; &emsp; &emsp; &emsp;<input type="text" id="price" ><br><br>
+          <br><br><br>
+          <input class="tg-btn" type="button" value="수정" id="update">
+        </div>
+
+        <div id="area2">
+          <table class="show-tb" align="left">
+            <thead>
+              <tr>
+                <th class="now" bgcolor="green" colspan="6">진행중인 공연</th>
+              </tr>
+            </thead>
+        </div>
+    </tbody>
+  </table>
+
+</body>
+
+</html>

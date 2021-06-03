@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MoonYouManager</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+
+<body>
+  <style type="text/css">
+    .tg {
+      border-collapse: collapse;
+      border-spacing: 0;
+      margin-left: auto;
+      margin-right: auto;
+      width: 60%;
+      margin-top: 50px;
+    }
+
+    .tg td {
+      border-color: black;
+      border-style: solid;
+      border-width: 1px;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      overflow: hidden;
+      padding: 10px 5px;
+      word-break: normal;
+    }
+
+    .tg th {
+      border-color: black;
+      border-style: solid;
+      border-width: 1px;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      font-weight: normal;
+      overflow: hidden;
+      padding: 10px 5px;
+      word-break: normal;
+    }
+
+    .tg .tg-3 {
+      border-color: inherit;
+      text-align: center;
+      vertical-align: middle;
+      width: 400px;
+      height: 450px;
+      font-size: large;
+    }
+
+    .tg .tg-2 {
+      border-color: inherit;
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    .tg .tg-1 {
+      background-color: #013300;
+      border-color: inherit;
+      color: #ecf4ff;
+      text-align: center;
+      vertical-align: middle;
+      width: 400px;
+    }
+
+    .tg .login-btn {
+      background-color: #013300;
+      border-color: inherit;
+      color: #ecf4ff;
+      text-align: center;
+      vertical-align: middle;
+      width: 300px;
+      height: 40px;
+      font-size: large;
+    }
+
+    .tg .tg-btn {
+      background-color: #013300;
+      border-color: inherit;
+      color: #ecf4ff;
+      text-align: center;
+      vertical-align: middle;
+      width: 250px;
+      font-size: large;
+    }
+  </style>
+  <table class="tg">
+    <thead>
+      <tr>
+        <th class="tg-1" colspan="7">문유 관리자 페이지</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="tg-2" colspan="7">로그인</td>
+      </tr>
+      <tr>
+        <td class="tg-3" colspan="7" rowspan="2">
+          email &emsp; &emsp; &nbsp;&nbsp;<input type="text" id="email">
+          <br><br>
+          PassWord &emsp;<input type="text" id="pwd">
+          <br><br><br><br>
+          <input class="tg-btn" type="button" value="아이디찾기/비밀번호 찾기" id="idpw"> &emsp; &emsp;
+          <input class="tg-btn" type="button" onClick="location.href='register.html'" value="회원가입" id="register">
+          <br><br><br><br>
+          <input class="login-btn" type="button" onClick=login() value="Login" id="login">
+        </td>
+
+      </tr>
+      <tr>
+      </tr>
+    </tbody>
+  </table>
+
+  <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
+  <script>
+    var firebaseEmailAuth; //파이어베이스 email 인증 모듈 전역변수
+    var firebaseDatabase; //파이어베이스 db 모듈 전역변수
+    var userInfo; //가입한 유저의 정보. object 타입
+    //파이어 베이스 초기화 코드
+    var config = {
+      apiKey: "AIzaSyASHPw5Y2txCeGJFYXn3GVdAlbR0SJS-YU", //파이어베이스 설정에 있음
+      authDomain: "thanksmemo-19012.firebaseapp.com",
+      databaseURL: "https://moonyou-test-default-rtdb.firebaseio.com",
+      projectId: "moonyou-test",
+      storageBucket: "moonyou-test.appspot.com",
+      messagingSenderId: "926150406764"
+    };
+    firebase.initializeApp(config);
+
+    firebaseEmailAuth = firebase.auth(); //파이어베이스 인증 객체
+    firebaseDatabase = firebase.database(); //파이어베이스 데이터베이스 객체
+
+    //제이쿼리를 사용한다.
+    $(document).ready(function () {
+
+      //가입버튼 눌렀을 때
+      $(document).on('click', '#login', function () {
+
+        //제이쿼리 선택자와 val() 함수를 이용해서 이메일,비밀번호 값을 가져온다. 
+        var email = $('#email').val();
+        var password = $('#pwd').val();
+
+        //파이어베이스 이메일 로그인 함수
+        firebaseEmailAuth.signInWithEmailAndPassword(email, password)
+          .then(function (firebaseUser) {
+
+            //성공하면 firebaseUser에 유저 정보 값이 담겨 넘어온다.
+            loginSuccess(firebaseUser);
+
+          })
+          .catch(function (error) {
+            // 실패했을 때 에러 처리
+            alert(error);
+            alert("로그인 실패");
+          });
+
+      });
+    });
+
+    //로그인 성공했을 때
+    function loginSuccess(firebaseUser) {
+      alert("로그인 성공");
+
+      //로그인 성공한 유저 id 확인해 보기 - firebase database에 접근해서 데이터 조회 하는 함수
+      firebaseDatabase.ref("users/" + firebaseUser.uid).once('value').then(function (snapshot) {
+        //alert(snapshot.val().name)
+      });
+
+      //메인 페이지로 이동
+      window.location.href = "/mypage.html"
+    }
+
+  </script>
+</body>
+
+</html>

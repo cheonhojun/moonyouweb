@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MoonYouManager</title> <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+
+<body>
+  <style type="text/css">
+    .tg {
+      border-collapse: collapse;
+      border-spacing: 0;
+      margin-left: auto;
+      margin-right: auto;
+      width: 60%;
+      margin-top: 50px;
+    }
+
+    .tg td {
+      border-color: black;
+      border-style: solid;
+      border-width: 1px;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      overflow: hidden;
+      padding: 10px 5px;
+      word-break: normal;
+    }
+
+    .tg th {
+      border-color: black;
+      border-style: solid;
+      border-width: 1px;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      font-weight: normal;
+      overflow: hidden;
+      padding: 10px 5px;
+      word-break: normal;
+    }
+
+    .tg .tg-1 {
+      background-color: #013300;
+      border-color: inherit;
+      color: #ecf4ff;
+      text-align: center;
+      vertical-align: middle;
+      width: 400px;
+    }
+
+    .tg .tg-2 {
+      border-color: inherit;
+      text-align: center;
+      vertical-align: middle;
+  
+    }
+
+
+    * {
+      margin: 0;
+      padding: 0;
+      font-family: "malgun gothic";
+    }
+
+    a {
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .table {
+      font-size: 0.9em;
+      color: #666666;
+      border-collapse: collapse;
+      border: 1px solid black;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .table tr>th {
+      border-right: 1px solid black;
+      width: 33%;
+    }
+
+    /*탭 3개 만들려고 33%*/
+    /*아래 것들은 반드시 id(#)로 작성해야 합니다 !!*/
+    #sub1,
+    #sub2,
+    #sub3 {
+      padding: 5px;
+    }
+
+    /*탭 제목*/
+    #area1,
+    #area2,
+    #area3 {
+      /*탭 내용칸*/
+      width: 60%;
+      height: 350px;
+      border: 1px solid black;
+      display: none;
+      margin-left: auto;
+      margin-right: auto;
+      padding-top: 100px;
+      border-color: inherit;
+      text-align: center;
+      vertical-align: middle;
+      font-size: large;
+    }
+
+    #area1 .tg-btn {
+      background-color: #013300;
+      border-color: inherit;
+      color: #ecf4ff;
+      text-align: center;
+      vertical-align: middle;
+      width: 200px;
+      height: 50px;
+      font-size: large;
+    }
+
+    #area2 .show-tb {
+      border-collapse: separate;
+      border: 1px solid black;
+      width: 40%;
+      height: 200px;
+      margin-left: 20px;
+    }
+    #area2 .fshow-tb {
+      border-collapse: separate;
+      border: 1px solid black;
+      width: 40%;
+      height: 200px;
+      margin-right: 20px;
+    }
+    .logout_btn{
+      width:100px;
+      height: 30px;
+      background-color: black;
+      color:wheat;
+    }
+  </style>
+  <table class="tg">
+    <thead>
+      <tr>
+        <th class="tg-1" colspan="6">문유 관리자 페이지</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="tg-2" colspan="6">마이페이지 <input class="logout_btn" type="button"  value="로그아웃" id="logout">
+        </td>
+     
+      </tr>
+      <script type="text/javascript">
+        var prev_menu = "";//이전 꺼를 없애주기 위해서 이전 정보를 저장할 변수 만듦
+        var prev_sub = "";
+        function layer_toggle(sub, obj) {//#sub, #area
+          if (prev_menu != obj) {
+            /*이전 정보 정리*/
+            if (prev_menu != "") {//처음 누른 상태 제외
+              prev_menu.style.display = "none";//이전 녀석 꺼라
+              prev_sub.style.backgroundColor = "#ffffff";
+              prev_sub.style.color = "#666666";// 이전탭의 제목색은 원래의 진한 색상으로 돌려준다
+            }
+            /* 현재 정보 스타일 변화 */
+            obj.style.display = "block";
+            sub.style.backgroundColor = "#18709c";
+            sub.style.color = "#ffffff";
+            /* 현재 정보를 다음클릭을 위해 var통에 저장 */
+            prev_menu = obj;
+            prev_sub = sub;
+          }
+        }
+      </script>
+
+      <!--첫번째 값 설정해주려면 바디에 "onload"를 지정해주면 됨-->
+
+      <body onload="javascript:layer_toggle(document.getElementById('sub1'),document.getElementById('area1'))">
+        <!--먼저 제목줄은 테이블로-->
+        <table class="table" width="60%">
+          <!--테이블 내부 애들은 div 없이 자바스크립트에서 그 속성을 부를 수 없다. 
+            그래서 형식을 맞춰주는 table th속성 안에 div가 들어간 형태로 작성한다-->
+          <tr>
+            <th>
+              <div id="sub1">
+                <a href="javascript:layer_toggle(document.getElementById('sub1'),document.getElementById('area1'))">
+                  회원정보수정
+                </a>
+              </div>
+            </th>
+            <th>
+              <div id="sub2">
+                <a href="javascript:layer_toggle(document.getElementById('sub2'),document.getElementById('area2'))">
+                  공연정보
+                </a>
+              </div>
+            </th>
+            <th>
+              <div id="sub3">
+                <a href="javascript:layer_toggle(document.getElementById('sub3'),document.getElementById('area3'))">
+                  공연관리
+                </a>
+              </div>
+            </th>
+          </tr>
+        </table>
+        <!--내용 area 는 밖에서-->
+        <div id="area1">
+          Email &nbsp; &emsp; &emsp; &emsp;<input type="text" id="email"><br><br>
+        
+       
+          PassWord &emsp;&emsp; <input type="text" id="pwd">
+          <br><br>
+      
+          <input class="tg-btn" type="button" value="수정" id="update">
+        </div>
+
+        <div id="area2">
+          <table class="show-tb" align="left">
+            <thead>
+              <tr>
+                <th class="now" bgcolor="green" colspan="6">진행중인 공연</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="e"></td>
+                <td class="now-time" colspan="5">공연기간</td>
+              </tr>
+              <tr >
+                <td class="1">공연1</td>
+                <td class="1-1" colspan="5"></td>
+              </tr>
+              <tr>
+                <td class="2">공연2</td>
+                <td class="2-1" colspan="5"></td>
+              </tr>
+              <tr>
+                <td class="3">공연3</td>
+                <td class="3-1" colspan="5"></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <table class="fshow-tb" align="right">
+            <thead>
+              <tr>
+                <th class="finish" bgcolor="red" colspan="6">종료된 공연</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="f"></td>
+                <td class="finish-time" colspan="5">공연기간</td>
+              </tr>
+              <tr>
+                <td class="f-1">공연4</td>
+                <td class="f1-1" colspan="5"></td>
+              </tr>
+              <tr>
+                <td class="f2">공연5</td>
+                <td class="f2-1" colspan="5"></td>
+              </tr>
+              <tr>
+                <td class="f3">공연6</td>
+                <td class="f3-1" colspan="5"></td>
+              </tr>
+            </tbody>
+          </table>
+
+        </div>
+        <a href="ShowManager.html" div id="area3">공연관리페이지로 이동</div>
+    </tbody>
+  </table>
+
+  <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
+  <script>
+    var firebaseEmailAuth; //파이어베이스 email 인증 모듈 전역변수
+    var firebaseDatabase; //파이어베이스 db 모듈 전역변수
+    var userInfo; //가입한 유저의 정보. object 타입
+    //파이어 베이스 초기화 코드   
+    var config = {
+      apiKey: "AIzaSyASHPw5Y2txCeGJFYXn3GVdAlbR0SJS-YU", //파이어베이스 설정에 있음
+      authDomain: "thanksmemo-19012.firebaseapp.com",
+      databaseURL: "https://moonyou-test-default-rtdb.firebaseio.com",
+      projectId: "moonyou-test",
+      storageBucket: "moonyou-test.appspot.com",
+      messagingSenderId: "926150406764"
+    };
+    firebase.initializeApp(config); //파이어베이스 초기화
+  
+    firebaseEmailAuth = firebase.auth();
+  
+    $(document).on('click', '#logout', function () {
+    firebaseEmailAuth.signOut().then(function() {
+          alert("로그아웃 되었습니다")
+          //메인 페이지로 이동시키고 세션 저장시키기
+           window.location.href = "/index.html"
+
+    });
+  }); 
+</script>   
+ <script src="/node_modules/firebase/firebase-app.js"></script>
+<script src="/node_modules/firebase/firebase-auth.js"></script>
+<script src="/node_modules/firebase/firebase-firestore.js"></script>
+<script type="module">
+import { firestore } from './firebase.js';     
+   
+firestore.collection("show_info").where("state", "==","상영중", true)
+    .get()
+    .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+            // doc.data() is never undefined for query doc snapshots
+            console.log( " aaaaaaaaaaaaaa ", doc.data());
+        });
+    })
+    .catch((error) => {
+        console.log("errrrrrrr@@@@@@@@@@ ", error);
+    });
+</script>
+</body>
+
+</html>
