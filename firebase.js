@@ -17,5 +17,5 @@ firestore.settings(settings);
 export default firebase;
 
 export {
-  firestore,
+  firestore
 };

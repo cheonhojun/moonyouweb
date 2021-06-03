@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="ko">
 
-<head>
+  <head link rel="icon" href="/favicon.ico" type="image/x-icon" profile="http://www.w3.org/2005/10/profile"
+    >
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MoonYouManager</title> <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -154,28 +155,7 @@
         </td>
      
       </tr>
-      <script type="text/javascript">
-        var prev_menu = "";//이전 꺼를 없애주기 위해서 이전 정보를 저장할 변수 만듦
-        var prev_sub = "";
-        function layer_toggle(sub, obj) {//#sub, #area
-          if (prev_menu != obj) {
-            /*이전 정보 정리*/
-            if (prev_menu != "") {//처음 누른 상태 제외
-              prev_menu.style.display = "none";//이전 녀석 꺼라
-              prev_sub.style.backgroundColor = "#ffffff";
-              prev_sub.style.color = "#666666";// 이전탭의 제목색은 원래의 진한 색상으로 돌려준다
-            }
-            /* 현재 정보 스타일 변화 */
-            obj.style.display = "block";
-            sub.style.backgroundColor = "#18709c";
-            sub.style.color = "#ffffff";
-            /* 현재 정보를 다음클릭을 위해 var통에 저장 */
-            prev_menu = obj;
-            prev_sub = sub;
-          }
-        }
-      </script>
-
+  
       <!--첫번째 값 설정해주려면 바디에 "onload"를 지정해주면 됨-->
 
       <body onload="javascript:layer_toggle(document.getElementById('sub1'),document.getElementById('area1'))">
@@ -248,7 +228,27 @@
         <a href="ShowManager.html" div id="area3">공연관리페이지로 이동</div>
     </tbody>
   </table>
-
+  <script type="text/javascript">
+    var prev_menu = "";//이전 꺼를 없애주기 위해서 이전 정보를 저장할 변수 만듦
+    var prev_sub = "";
+    function layer_toggle(sub, obj) {//#sub, #area
+      if (prev_menu != obj) {
+        /*이전 정보 정리*/
+        if (prev_menu != "") {//처음 누른 상태 제외
+          prev_menu.style.display = "none";//이전 녀석 꺼라
+          prev_sub.style.backgroundColor = "#ffffff";
+          prev_sub.style.color = "#666666";// 이전탭의 제목색은 원래의 진한 색상으로 돌려준다
+        }
+        /* 현재 정보 스타일 변화 */
+        obj.style.display = "block";
+        sub.style.backgroundColor = "#18709c";
+        sub.style.color = "#ffffff";
+        /* 현재 정보를 다음클릭을 위해 var통에 저장 */
+        prev_menu = obj;
+        prev_sub = sub;
+      }
+    }
+  </script>
   <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
   <script>
     var firebaseEmailAuth; //파이어베이스 email 인증 모듈 전역변수
@@ -276,14 +276,12 @@
     });
   }); 
 </script>   
- <script src="/node_modules/firebase/firebase-app.js"></script>
-<script src="/node_modules/firebase/firebase-auth.js"></script>
-<script src="/node_modules/firebase/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-firestore.js"></script>
 <script type="module">
 
 var rows=[];
-    
-    import { firestore } from './firebase.js';     
+import { firestore } from './firebase.js';     
     firestore.collection("show_info")
         .where("state", "==","상영중", true)
         .get()
